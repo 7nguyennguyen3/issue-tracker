@@ -1,6 +1,8 @@
 import { issueSchema } from "@/app/validationSchema";
 import prisma from "@/prisma/client";
+import { error } from "console";
 import { NextRequest, NextResponse } from "next/server";
+import { parse } from "path";
 
 export async function PATCH(
   request: NextRequest,
@@ -28,4 +30,22 @@ export async function PATCH(
   });
 
   return NextResponse.json(updatedIssue);
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const issue = await prisma.issue.findUnique({
+    where: { id: parseInt(params.id) },
+  });
+
+  if (!issue)
+    return NextResponse.json({ error: "Invalid issue" }, { status: 404 });
+
+  await prisma.issue.delete({
+    where: { id: issue.id },
+  });
+
+  return NextResponse.json({ message: "Issue has been successfully deleted" });
 }
