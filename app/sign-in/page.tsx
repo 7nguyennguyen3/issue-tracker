@@ -11,7 +11,7 @@ const SignInPage = () => {
       justify="center"
       className="h-screen"
     >
-      <Flex direction="column" gap="3" className="bg-sky-100">
+      <Flex direction="column" gap="3">
         <SignInButton provider="google" color="tomato">
           Sign in with Google
           <FaGoogle />
